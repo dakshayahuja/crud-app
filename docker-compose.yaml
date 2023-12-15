@@ -1,0 +1,33 @@
+services:
+  app:
+    container_name: crud-app
+    image: dakshayahuja/laravel-crud-app
+    build: .
+    volumes:
+      - .:/var/www/html:cached
+    ports:
+      - 80:80
+
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=crud-app
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8000:80
+    environment:
+      - PMA_HOST=mysql_db
+      - MYSQL_ROOT_PASSWORD=root
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - PMA ARBITRARY=1
+
+volumes:
+  mysql_data: 
